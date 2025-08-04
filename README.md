@@ -44,21 +44,21 @@ uvicorn main:app --reload
 
 **🔸 단일 모델 성능의 한계**
 
-![2](https://ibb.co/tPwDTDw8)
+![2](https://i.ibb.co/yBmqcqmW/2.png)
 
 - LightGBM 단독 사용 시 **MAPE 38.64%**로 낮은 예측 정확도를 보임
 
 **🔸 단순 앙상블의 제한**
 
-![4](https://ibb.co/xq9fwMXj)
+![4](https://i.ibb.co/yFvYK8dy/4.png)
 
 - LightGBM + CatBoost + MLP를 앙상블해도 **MAPE 37.11%**로 큰 성능 향상이 없었음
 
 **🔸 Optuna 도입의 효과**
 
-![5](https://ibb.co/CKd6VLj6)
+![5](https://i.ibb.co/RTnNQ8XN/5.png)
 
-![6](https://ibb.co/wh3fmDp0)
+![6](https://i.ibb.co/60VkC6Dn/6.png)
 
 - Optuna를 활용한 하이퍼파라미터 최적화 후 **MAPE 35.32%**로 성능이 개선됨
 
@@ -66,7 +66,7 @@ uvicorn main:app --reload
 
 ## 📉 파생 변수 기반 실험 (참고용)
 
-![1](https://ibb.co/1fZqzrmy)
+![1](https://i.ibb.co/27qtZvkV/1.png)
 
 다음과 같은 **시계열 및 그룹 통계 기반 파생 변수**를 추가하여 딥러닝 모델을 학습했을 경우, **MAPE 2.95%**로 매우 높은 성능을 기록했습니다.
 
