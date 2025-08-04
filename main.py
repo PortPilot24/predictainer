@@ -38,7 +38,7 @@ with open("models/scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
 # ✅ 8일치 예측 API
-@app.get("/predict/8days")
+@app.get("/predictainer/predict")
 def predict_8days():
     # 1. OpenWeatherMap API 호출
     url = f"https://api.openweathermap.org/data/3.0/onecall"
