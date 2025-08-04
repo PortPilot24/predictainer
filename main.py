@@ -10,8 +10,17 @@ import numpy as np
 import pandas as pd
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 또는 ['http://localhost:3000']
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ✅ 환경 변수 로드 (.env에 API_KEY가 저장되어 있다고 가정)
 load_dotenv()
