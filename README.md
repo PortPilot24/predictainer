@@ -28,39 +28,80 @@ uvicorn main:app --reload
 
 ---
 
-## 📊 모델 성능
+## 📊 모델 성능 요약
 
 | 모델 구성                                | MAPE (%)  |
 | ------------------------------------ | --------- |
 | LightGBM 단독                          | 38.64     |
 | LightGBM + CatBoost + MLP (Optuna X) | 37.11     |
-| ✅ LightGBM + CatBoost + MLP + Optuna | **35.32** |
+| LightGBM + CatBoost + MLP + Optuna | 35.32 |
+| ✅ 최종 모델 (Optuna + Feature/Outlier 제거 + Grid Search) | **24.56** |
 
-- 최종 선택한 모델은 **Optuna를 활용한 LightGBM + CatBoost + MLP 앙상블 모델**입니다.
+- **최종 선택한 모델**은 `Optuna`를 활용한 `LightGBM + CatBoost + MLP` 앙상블에,
+**불필요한 Feature 제거, 이상치 제거, Grid Search 기반 가중치 최적화**를 적용한 모델입니다.
 
-- Optuna 없이 앙상블만 사용했을 경우 **MAPE 37.11%**로 성능에 한계가 있어, **하이퍼파라미터 튜닝 도구인 Optuna를 도입**하여 **최종적으로 MAPE 35.32%**까지 개선하였습니다.
+- `Optuna`만을 적용했을 때는 MAPE가 **35.32%** 로 다소 아쉬웠지만,
+**Feature 및 이상치 제거, 가중치 튜닝을 추가로 수행한 결과 MAPE 24.56%로 약 10%의 성능 향상**을 이루었습니다.
 
-## ⚠️ 이슈 및 한계
+- 특히, **이상치 제거**가 성능 개선에 가장 크게 기여한 것으로 분석되었습니다.
 
-**🔸 단일 모델 성능의 한계**
+## ⚠️ 진행 과정 및 한계
+
+### **🔸 단일 모델 성능의 한계**
 
 ![2](https://i.ibb.co/yBmqcqmW/2.png)
 
-- LightGBM 단독 사용 시 **MAPE 38.64%**로 낮은 예측 정확도를 보임
+- LightGBM 단독 모델의 성능은 **MAPE 38.64%** 로 낮은 정확도를 보임
 
-**🔸 단순 앙상블의 제한**
+    → 단일 모델의 한계 존재
+
+### **🔸 단순 앙상블의 한계**
 
 ![4](https://i.ibb.co/yFvYK8dy/4.png)
 
-- LightGBM + CatBoost + MLP를 앙상블해도 **MAPE 37.11%**로 큰 성능 향상이 없었음
+- LightGBM + CatBoost + MLP 앙상블 적용에도 불구하고 **MAPE 37.11%**
 
-**🔸 Optuna 도입의 효과**
+    → 모델 간 상호 보완성이 충분하지 않았음
+
+### **🔸 Optuna 도입의 효과**
 
 ![5](https://i.ibb.co/RTnNQ8XN/5.png)
 
 ![6](https://i.ibb.co/60VkC6Dn/6.png)
 
-- Optuna를 활용한 하이퍼파라미터 최적화 후 **MAPE 35.32%**로 성능이 개선됨
+- 각 모델에 **Optuna를 이용한 하이퍼파라미터 최적화** 적용
+
+    → **MAPE 35.32%** 로 성능 일부 향상
+
+### **🔸 최적화 기법 도입으로 성능 향상**
+
+![7](https://i.ibb.co/bRgKnQ6b/7.png)
+
+![8](https://i.ibb.co/Kzhgn5CW/8.png)
+
+- **Feature 중요도 분석**을 통해 중요도가 낮은 변수 제거
+
+![9](https://i.ibb.co/WvbjKj96/9.png)
+
+- **타겟 이상치 제거**로 모델 안정성 개선
+
+![10](https://i.ibb.co/nq30xRFV/10.png)
+
+![11](https://i.ibb.co/XhsstSK/11.png)
+
+![12](https://i.ibb.co/sJv444JS/12.png)
+
+- **Grid Search를 통한 앙상블 가중치 최적화**
+
+    → 최종적으로 **MAPE 24.56%** 도달
+
+---
+
+## ✅ 결론
+
+- 단순 앙상블보다는 **하이퍼파라미터 튜닝, Feature 선택, 이상치 제거 등 데이터 기반 전처리와 구조적 최적화**가 더 큰 성능 향상을 이끌었음
+
+- **이상치 제거**가 전체 성능 향상에 가장 크게 기여
 
 ---
 
@@ -68,7 +109,7 @@ uvicorn main:app --reload
 
 ![1](https://i.ibb.co/27qtZvkV/1.png)
 
-다음과 같은 **시계열 및 그룹 통계 기반 파생 변수**를 추가하여 딥러닝 모델을 학습했을 경우, **MAPE 2.95%**로 매우 높은 성능을 기록했습니다.
+다음과 같은 **시계열 및 그룹 통계 기반 파생 변수**를 추가하여 딥러닝 모델을 학습했을 경우, **MAPE 2.95%** 로 매우 높은 성능을 기록했습니다.
 
 **사용된 주요 파생 변수:**
 
