@@ -110,3 +110,7 @@ def predict_8days():
         })
 
     return {"predictions": predictions}
+
+@app.get("/health", tags=["health"])
+async def health():
+    return {"status": "ok"}
